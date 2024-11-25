@@ -3,11 +3,14 @@ package com.ayukrisna.dicodingstory.view.ui.screen.login
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ayukrisna.dicodingstory.domain.usecase.LoginUseCase
 import com.ayukrisna.dicodingstory.domain.usecase.ValidateEmailUseCase
 import com.ayukrisna.dicodingstory.domain.usecase.ValidatePasswordUseCase
+import com.ayukrisna.dicodingstory.util.Result
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -20,11 +23,11 @@ class LoginViewModel(
 
     var formState by mutableStateOf(LoginState()) //initialize with default state values
 
-    private val _loginState = MutableStateFlow<String?>(null)
-    val loginState: StateFlow<String?> = _loginState
+    private val _loginState = MutableLiveData<Result<Unit>>(Result.Idle)
+    val loginState: LiveData<Result<Unit>> = _loginState
 
-    private val _errorState = MutableStateFlow<String?>(null)
-    val errorState: StateFlow<String?> = _errorState
+//    private val _errorState = MutableStateFlow<String?>(null)
+//    val errorState: StateFlow<String?> = _errorState
 
     fun onEvent(event: LoginEvent) {
         when (event) {
@@ -64,18 +67,9 @@ class LoginViewModel(
 
     private fun login(email: String, password: String){
         viewModelScope.launch {
-            try {
-                val response = loginUseCase.execute(email, password)
-                _loginState.value = response.message
-
-            } catch (e: Exception) {
-                _errorState.value = e.message
-            }
+            _loginState.value = Result.Loading // Emit loading state
+            val result = loginUseCase.execute(email, password)
+            _loginState.value = result // Emit success or error state
         }
-    }
-
-    fun resetStates() {
-        _loginState.value = null
-        _errorState.value = null
     }
 }

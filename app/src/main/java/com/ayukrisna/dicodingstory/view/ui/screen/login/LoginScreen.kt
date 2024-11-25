@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,6 +28,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.ayukrisna.dicodingstory.R
+import com.ayukrisna.dicodingstory.util.Result
 import com.ayukrisna.dicodingstory.view.ui.component.CustomTextField
 import com.ayukrisna.dicodingstory.view.ui.theme.DicodingStoryTheme
 import org.koin.androidx.compose.koinViewModel
@@ -37,8 +39,8 @@ fun LoginScreen(
     onNavigateToSignup: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val loginState by viewModel.loginState.collectAsState()
-    val errorState by viewModel.errorState.collectAsState()
+    val loginState by viewModel.loginState.observeAsState(initial = Result.Loading)
+//    val errorState by viewModel.errorState.collectAsState()
 
     Surface {
         Column (
@@ -68,22 +70,16 @@ fun LoginScreen(
             //Signup Button
             SignupButton({ onNavigateToSignup() })
 
-            when {
-                loginState != null -> {
+
+            when (loginState) {
+                is Result.Idle -> {}
+                is Result.Loading -> Text("Loading")
+                is Result.Success -> {
                     Text("Login Successful: $loginState")
-                    LaunchedEffect(loginState) {
-                        println("Resetting loginState")
-                        kotlinx.coroutines.delay(3000)
-                        viewModel.resetStates()
-                    }
                 }
-                errorState != null -> {
-                    Text("Error: $errorState", color = Color.Red)
-                    LaunchedEffect(errorState) {
-                        println("Resetting errorState")
-                        kotlinx.coroutines.delay(3000)
-                        viewModel.resetStates()
-                    }
+                is Result.Error -> {
+                    val error = (loginState as Result.Error).error
+                    Text("Error: $error", color = Color.Red)
                 }
             }
         }

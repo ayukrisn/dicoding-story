@@ -2,17 +2,22 @@ package com.ayukrisna.dicodingstory.data.remote.response
 
 import kotlinx.parcelize.Parcelize
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 
-@Parcelize
 data class LoginResponse(
+	@SerializedName("loginResult")
 	val loginResult: LoginResult? = null,
+	@SerializedName("error")
 	val error: Boolean? = null,
+	@SerializedName("message")
 	val message: String? = null
-) : Parcelable
+)
 
-@Parcelize
 data class LoginResult(
+	@SerializedName("name")
 	val name: String? = null,
+	@SerializedName("userId")
 	val userId: String? = null,
+	@SerializedName("token")
 	val token: String? = null
-) : Parcelable
+)

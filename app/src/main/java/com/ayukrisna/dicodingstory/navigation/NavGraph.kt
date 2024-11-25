@@ -11,6 +11,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import com.ayukrisna.dicodingstory.view.ui.screen.login.LoginScreen
 import com.ayukrisna.dicodingstory.view.ui.screen.signup.SignupScreen
+import com.ayukrisna.dicodingstory.view.ui.screen.welcome.WelcomeScreen
 
 @Composable
 fun NavGraph (
@@ -18,12 +19,22 @@ fun NavGraph (
 ) {
     NavHost(
         navController,
-        startDestination = AuthScreen.LoginScreen,
+        startDestination = AuthScreen.WelcomeScreen,
         enterTransition = { fadeIn(tween(100))},
         popEnterTransition = {EnterTransition.None},
         exitTransition = { fadeOut(tween(100))},
         popExitTransition = {ExitTransition.None}
     ) {
+        composable<AuthScreen.WelcomeScreen> {
+            WelcomeScreen(
+                onNavigateToLogin = {
+                    navController.navigate(AuthScreen.LoginScreen)
+                },
+                onNavigateToSignup = {
+                    navController.navigate(AuthScreen.SignupScreen)
+                },
+            )
+        }
         composable<AuthScreen.LoginScreen> {
             LoginScreen(
                 onNavigateToSignup = {

@@ -23,12 +23,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.ayukrisna.dicodingstory.R
 import com.ayukrisna.dicodingstory.util.Result
+import com.ayukrisna.dicodingstory.view.ui.component.AnimatedMovingImageVertical
 import com.ayukrisna.dicodingstory.view.ui.component.CustomTextField
 import com.ayukrisna.dicodingstory.view.ui.theme.DicodingStoryTheme
 import org.koin.androidx.compose.koinViewModel
@@ -51,16 +53,18 @@ fun LoginScreen(
                 .padding(horizontal = 16.dp, vertical = 42.dp)
         ) {
             // Greetings
-            Text("Log In", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold,
+            AnimatedLoginImage()
+            Text(
+                stringResource(R.string.log_in), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(0.dp, 8.dp, 0.dp, 8.dp))
-            Text("Ayo Login",
+            Text(
+                stringResource(R.string.login_instruction),
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(0.dp, 0.dp, 0.dp, 42.dp))
-
+                    .padding(0.dp, 0.dp, 0.dp, 24.dp))
             //Email Input Field
             EmailTextField(viewModel)
             //Password Input Field
@@ -94,7 +98,8 @@ fun LoginButton(
     Button(onClick = {
         viewModel.onEvent(LoginEvent.Submit)
     },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(0.dp, 16.dp, 0.dp, 8.dp)) {
         Text("Log In")
     }
@@ -105,7 +110,8 @@ fun SignupButton(onNavigateToSignup: () -> Unit, modifier: Modifier = Modifier){
     OutlinedButton(onClick = {
         onNavigateToSignup()
     },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(0.dp, 0.dp, 0.dp, 8.dp)) {
         Text("Sign Up")
     }
@@ -158,7 +164,8 @@ fun PasswordTextField(
                             contentDescription = "Visible",
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier
-                                .requiredSize(48.dp).padding(16.dp)
+                                .requiredSize(48.dp)
+                                .padding(16.dp)
                         )
                     }
                 }
@@ -171,4 +178,12 @@ fun PasswordTextField(
             singleLine = true,
         )
     }
+}
+
+@Composable
+fun AnimatedLoginImage() {
+    AnimatedMovingImageVertical(
+        painter = painterResource(id = R.drawable.image_login),
+        description = "Login Image Animation"
+    )
 }

@@ -73,6 +73,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     androidTestImplementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.animation)
 
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.coroutines.android)

@@ -18,15 +18,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.ayukrisna.dicodingstory.R
+import com.ayukrisna.dicodingstory.data.remote.response.RegisterResponse
+import com.ayukrisna.dicodingstory.util.Result
+import com.ayukrisna.dicodingstory.view.ui.component.AnimatedMovingImageVertical
 import com.ayukrisna.dicodingstory.view.ui.component.CustomTextField
 import com.ayukrisna.dicodingstory.view.ui.theme.DicodingStoryTheme
 import org.koin.androidx.compose.koinViewModel
@@ -38,8 +43,7 @@ fun SignupScreen(
     onNavigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val signUpState by viewModel.signUpState.collectAsState()
-    val errorState by viewModel.errorState.collectAsState()
+    val signUpState by viewModel.signUpState.observeAsState(initial = Result.Loading)
 
     Surface {
         Column (
@@ -50,15 +54,18 @@ fun SignupScreen(
                 .padding(horizontal = 16.dp, vertical = 42.dp)
         ) {
             // Greetings
-            Text("Hai!", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold,
+            AnimatedSignupImage()
+            Text(
+                stringResource(R.string.sign_up), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(0.dp, 8.dp, 0.dp, 8.dp))
-            Text("Ayo Signup",
+            Text(
+                stringResource(R.string.sign_up_description),
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(0.dp, 0.dp, 0.dp, 42.dp))
+                    .padding(0.dp, 0.dp, 0.dp, 24.dp))
             //Name Input Field
             NameTextField(viewModel)
             //Email Input Field
@@ -70,22 +77,16 @@ fun SignupScreen(
             //Login Button
             LoginButton({ onNavigateToLogin() })
 
-            when {
-                signUpState != null -> {
-                    Text("Sign Up Successful: $signUpState")
-                    LaunchedEffect(signUpState) {
-                        println("Resetting signUpState")
-                        kotlinx.coroutines.delay(3000)
-                        viewModel.resetStates()
-                    }
+            when (signUpState) {
+                is Result.Idle -> {}
+                is Result.Loading -> Text("Loading")
+                is Result.Success<*> -> {
+                    val registerResponse = (signUpState as Result.Success<RegisterResponse>).data
+                    Text("Sign up Successful: ${registerResponse.message}")
                 }
-                errorState != null -> {
-                    Text("Error: $errorState", color = Color.Red)
-                    LaunchedEffect(errorState) {
-                        println("Resetting errorState")
-                        kotlinx.coroutines.delay(3000)
-                        viewModel.resetStates()
-                    }
+                is Result.Error -> {
+                    val error = (signUpState as Result.Error).error
+                    Text("Error: $error", color = Color.Red)
                 }
             }
         }
@@ -100,7 +101,8 @@ fun SignupButton(
     Button(onClick = {
         viewModel.onEvent(SignupEvent.Submit)
     },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(0.dp, 16.dp, 0.dp, 8.dp)) {
         Text("Sign Up")
     }
@@ -111,16 +113,17 @@ fun LoginButton(onNavigateToLogin: () -> Unit, modifier: Modifier = Modifier){
     OutlinedButton(onClick = {
         onNavigateToLogin()
     },
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(0.dp, 0.dp, 0.dp, 8.dp)) {
-        Text("Sign Up")
+        Text("Log In")
     }
 }
 
 @Composable
 fun NameTextField(viewModel: SignupViewModel) {
     CustomTextField(
-        title = "Nama",
+        title = stringResource(R.string.name),
         text = viewModel.formState.name,
         onValueChange = {
             viewModel.onEvent(SignupEvent.NameChanged(it))
@@ -181,7 +184,8 @@ fun PasswordTextField(
                             contentDescription = "Visible",
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier
-                                .requiredSize(48.dp).padding(16.dp)
+                                .requiredSize(48.dp)
+                                .padding(16.dp)
                         )
                     }
                 }
@@ -194,4 +198,12 @@ fun PasswordTextField(
             singleLine = true,
         )
     }
+}
+
+@Composable
+fun AnimatedSignupImage() {
+    AnimatedMovingImageVertical(
+        painter = painterResource(id = R.drawable.image_signup),
+        description = "Sign Up Image Animation"
+    )
 }

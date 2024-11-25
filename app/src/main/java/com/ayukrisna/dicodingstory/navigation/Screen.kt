@@ -11,6 +11,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class AuthScreen {
     @Serializable
+    data object WelcomeScreen : AuthScreen()
+
+    @Serializable
     data object LoginScreen : AuthScreen()
 
     @Serializable

@@ -26,9 +26,6 @@ class LoginViewModel(
     private val _loginState = MutableLiveData<Result<Unit>>(Result.Idle)
     val loginState: LiveData<Result<Unit>> = _loginState
 
-//    private val _errorState = MutableStateFlow<String?>(null)
-//    val errorState: StateFlow<String?> = _errorState
-
     fun onEvent(event: LoginEvent) {
         when (event) {
             is LoginEvent.EmailChanged -> {

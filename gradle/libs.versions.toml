@@ -1,5 +1,6 @@
 [versions]
 agp = "8.7.2"
+animation = "1.7.5"
 converterGson = "2.9.0"
 datastorePreferences = "1.1.1"
 koinAndroid = "3.5.6"
@@ -32,6 +33,7 @@ runtimeLivedata = "1.7.5"
 material3Jvmstubs = "1.4.0-alpha04"
 
 [libraries]
+androidx-animation = { module = "androidx.compose.animation:animation", version.ref = "animation" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }

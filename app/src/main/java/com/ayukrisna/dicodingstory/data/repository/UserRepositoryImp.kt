@@ -45,7 +45,14 @@ class UserRepositoryImp (
 
     override suspend fun register(name:String, email: String, password: String): RegisterResponse {
         val apiService = ApiConfig.getApiService()
-        return apiService.registerUser(name, email, password)
+        val response = apiService.registerUser(name, email, password)
+        if (response.isSuccessful) {
+            return response.body() ?: throw Exception("Response body is null")
+        } else {
+            val errorBody = response.errorBody()?.string()
+            val errorResponse = errorBody?.let { parseErrorBody(it) }
+            throw Exception(errorResponse?.message ?: "HTTP ${response.code()} error")
+        }
     }
 
     private fun parseErrorBody(errorBody: String): LoginResponse? {

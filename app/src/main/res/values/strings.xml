@@ -5,4 +5,11 @@
     <string name="emailIsNotValid">Emailmu tidak valid, nih.</string>
     <string name="passwordLessThanEightChars">Pastikan passwordmu terdiri dari 8 karakter atau lebih, ya!</string>
     <string name="testing_error">Testing error</string>
+    <string name="log_in">Log In</string>
+    <string name="login_instruction">Ayo log in terlebih dahulu!</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_up_description">Ayo daftarkan dirimu terlebih dahulu!</string>
+    <string name="name">Nama</string>
+    <string name="dicoding_story">Dicoding Story</string>
+    <string name="dicoding_introduction">Temukan inspirasi dan perjalanan seru bersama para developer di Dicoding Story—tempat berbagi pengalaman, belajar, dan bertumbuh bersama komunitas teknologi!</string>
 </resources>

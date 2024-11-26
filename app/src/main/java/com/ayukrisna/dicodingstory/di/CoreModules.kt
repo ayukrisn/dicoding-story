@@ -10,6 +10,7 @@ import com.ayukrisna.dicodingstory.util.provideDataStore
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import com.ayukrisna.dicodingstory.domain.usecase.RegisterUseCase
+import com.ayukrisna.dicodingstory.view.ui.screen.splash.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -38,6 +39,7 @@ val useCaseModules = module {
 
 //View Model
 val viewModelModules = module {
+    viewModel{ SplashViewModel(get()) }
     viewModel{ SignupViewModel(get()) }
     viewModel{ LoginViewModel(get()) }
 }

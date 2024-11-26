@@ -11,6 +11,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 sealed class AuthScreen {
     @Serializable
+    data object SplashScreen : AuthScreen()
+
+    @Serializable
     data object WelcomeScreen : AuthScreen()
 
     @Serializable
@@ -18,4 +21,10 @@ sealed class AuthScreen {
 
     @Serializable
     data object SignupScreen : AuthScreen()
+}
+
+@Serializable
+sealed class StoryScreen {
+    @Serializable
+    data object ListStoryScreen : StoryScreen()
 }

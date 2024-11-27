@@ -39,6 +39,7 @@ import org.koin.androidx.compose.koinViewModel
 fun LoginScreen(
     viewModel: LoginViewModel = koinViewModel(),
     onNavigateToSignup: () -> Unit,
+    onNavigateToListStory: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val loginState by viewModel.loginState.observeAsState(initial = Result.Loading)
@@ -77,9 +78,11 @@ fun LoginScreen(
 
             when (loginState) {
                 is Result.Idle -> {}
-                is Result.Loading -> Text("Loading")
+                is Result.Loading -> Text("Loading...")
                 is Result.Success -> {
-                    Text("Login Successful: $loginState")
+                    LaunchedEffect(Unit) {
+                        onNavigateToListStory()
+                    }
                 }
                 is Result.Error -> {
                     val error = (loginState as Result.Error).error

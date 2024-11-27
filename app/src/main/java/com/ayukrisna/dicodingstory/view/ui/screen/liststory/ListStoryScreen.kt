@@ -1,9 +1,12 @@
 package com.ayukrisna.dicodingstory.view.ui.screen.liststory
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,9 +43,11 @@ import com.ayukrisna.dicodingstory.view.ui.screen.login.LoginViewModel
 import com.ayukrisna.dicodingstory.view.ui.theme.DicodingStoryTheme
 import org.koin.androidx.compose.koinViewModel
 import com.ayukrisna.dicodingstory.util.Result
+import com.ayukrisna.dicodingstory.view.ui.component.LoadingProgress
 
 @Composable
 fun ListStoryScreen (
+    onClick: (String) -> Unit,
     viewModel: ListStoryViewModel = koinViewModel(),
     modifier: Modifier = Modifier
 ) {
@@ -51,10 +57,9 @@ fun ListStoryScreen (
         viewModel.fetchStories()
     }
 
-
     Scaffold(
         topBar = {
-            ListStoryAppBar("Dicoding Story", "Ceritakan kisahmu")
+            ListStoryAppBar(stringResource(R.string.dicoding_story), stringResource(R.string.dicoding_subtitle))
         },
         content = { paddingValues ->
                 Column(modifier = Modifier
@@ -64,7 +69,7 @@ fun ListStoryScreen (
                 ) {
                     when (storiesState) {
                         is Result.Idle -> Text("Idle State")
-                        is Result.Loading -> CircularProgressIndicator()
+                        is Result.Loading -> LoadingProgress()
                         is Result.Success -> {
                             val stories: List<ListStoryItem> = (storiesState as Result.Success<List<ListStoryItem>>).data
                             if (stories.isNotEmpty()) {
@@ -73,7 +78,10 @@ fun ListStoryScreen (
                                         ItemListStory(
                                             photoUrl = story.photoUrl ?: "https://picsum.photos/seed/picsum/200/300",
                                             name = story.name ?: "No Name",
-                                            description = story.description ?: "No Description"
+                                            description = story.description ?: "No Description",
+                                            onClick = {
+                                                story.id?.let { onClick(it) }
+                                            }
                                         )
                                     }
                                 }
@@ -102,12 +110,14 @@ fun ItemListStory(
     name: String,
     description: String,
     photoUrl: String,
+    onClick: () -> Unit,
     modifier : Modifier = Modifier
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 8.dp)
+            .clickable { onClick() },
         colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.surfaceBright
                 ),
@@ -132,13 +142,13 @@ fun ItemListStory(
             Column {
                 Text(
                     text = name,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleLarge,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = description,
-                    style = MaterialTheme.typography.bodySmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
@@ -148,12 +158,12 @@ fun ItemListStory(
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PreviewListStoryItem(modifier : Modifier = Modifier) {
-    ItemListStory(
-        photoUrl = "https://story-api.dicoding.dev/images/stories/photos-1732633121592_9a49bbb02b35aad5f8a1.jpg",
-        name = "Sample Story",
-        description = "This is a description of the story. It is concise and informative."
-    )
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PreviewListStoryItem(modifier : Modifier = Modifier) {
+//    ItemListStory(
+//        photoUrl = "https://story-api.dicoding.dev/images/stories/photos-1732633121592_9a49bbb02b35aad5f8a1.jpg",
+//        name = "Sample Story",
+//        description = "This is a description of the story. It is concise and informative."
+//    )
+//}

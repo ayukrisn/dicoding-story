@@ -7,12 +7,14 @@ import com.ayukrisna.dicodingstory.data.repository.UserRepositoryImp
 import com.ayukrisna.dicodingstory.data.repository.StoryRepositoryImp
 import com.ayukrisna.dicodingstory.domain.repository.StoryRepository
 import com.ayukrisna.dicodingstory.domain.repository.UserRepository
+import com.ayukrisna.dicodingstory.domain.usecase.DetailStoryUseCase
 import com.ayukrisna.dicodingstory.domain.usecase.ListStoryUseCase
 import com.ayukrisna.dicodingstory.domain.usecase.LoginUseCase
 import com.ayukrisna.dicodingstory.util.provideDataStore
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import com.ayukrisna.dicodingstory.domain.usecase.RegisterUseCase
+import com.ayukrisna.dicodingstory.view.ui.screen.detailstory.DetailStoryViewModel
 import com.ayukrisna.dicodingstory.view.ui.screen.liststory.ListStoryViewModel
 import com.ayukrisna.dicodingstory.view.ui.screen.splash.SplashViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -41,6 +43,7 @@ val useCaseModules = module {
     single { RegisterUseCase(get()) }
     single { LoginUseCase(get()) }
     single { ListStoryUseCase(get()) }
+    single { DetailStoryUseCase(get()) }
 }
 
 //View Model
@@ -49,4 +52,5 @@ val viewModelModules = module {
     viewModel{ SignupViewModel(get()) }
     viewModel{ LoginViewModel(get()) }
     viewModel{ ListStoryViewModel(get()) }
+    viewModel{ DetailStoryViewModel(get()) }
 }

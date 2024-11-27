@@ -9,6 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
+import androidx.navigation.toRoute
+import com.ayukrisna.dicodingstory.view.ui.screen.detailstory.DetailStoryScreen
 import com.ayukrisna.dicodingstory.view.ui.screen.liststory.ListStoryScreen
 import com.ayukrisna.dicodingstory.view.ui.screen.login.LoginScreen
 import com.ayukrisna.dicodingstory.view.ui.screen.signup.SignupScreen
@@ -55,6 +57,11 @@ fun NavGraph (
             LoginScreen(
                 onNavigateToSignup = {
                     navController.navigate(AuthScreen.SignupScreen)
+                },
+                onNavigateToListStory = {
+                    navController.navigate(StoryScreen.ListStoryScreen) {
+                        popUpTo(AuthScreen.LoginScreen) { inclusive = true }
+                    }
                 }
             )
         }
@@ -66,7 +73,18 @@ fun NavGraph (
             )
         }
         composable<StoryScreen.ListStoryScreen>{
-            ListStoryScreen()
+            ListStoryScreen(
+                onClick = { id ->
+                    navController.navigate(StoryScreen.DetailStoryScreen(id))
+                }
+            )
+        }
+        composable<StoryScreen.DetailStoryScreen>{ entry ->
+            val detailStory = entry.toRoute<StoryScreen.DetailStoryScreen>()
+            DetailStoryScreen(
+                id = detailStory.id,
+                onBackClick = { navController.popBackStack() }
+            )
         }
     }
 }

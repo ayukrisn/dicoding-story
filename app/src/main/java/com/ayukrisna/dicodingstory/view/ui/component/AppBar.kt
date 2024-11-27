@@ -45,7 +45,7 @@ fun AppBar(title: String, subtitle: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CenterAppBar(title: String) {
+fun CenterAppBar(title: String, onBackClick: () -> Unit) {
     CenterAlignedTopAppBar(
         title = {
             Text(text = title,
@@ -55,7 +55,7 @@ fun CenterAppBar(title: String) {
             )
         },
         navigationIcon = {
-            IconButton(onClick = { /* do something */ }) {
+            IconButton(onClick = { onBackClick() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Localized description",
@@ -63,6 +63,5 @@ fun CenterAppBar(title: String) {
                 )
             }
         },
-
         )
 }

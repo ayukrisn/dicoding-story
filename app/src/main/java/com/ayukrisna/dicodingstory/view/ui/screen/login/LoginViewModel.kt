@@ -64,9 +64,9 @@ class LoginViewModel(
 
     private fun login(email: String, password: String){
         viewModelScope.launch {
-            _loginState.value = Result.Loading // Emit loading state
+            _loginState.value = Result.Loading
             val result = loginUseCase.execute(email, password)
-            _loginState.value = result // Emit success or error state
+            _loginState.value = result
         }
     }
 }

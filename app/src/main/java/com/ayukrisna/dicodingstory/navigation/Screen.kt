@@ -27,4 +27,7 @@ sealed class AuthScreen {
 sealed class StoryScreen {
     @Serializable
     data object ListStoryScreen : StoryScreen()
+
+    @Serializable
+    data class DetailStoryScreen(val id: String) : StoryScreen()
 }

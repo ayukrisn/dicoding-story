@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">DicodingStory</string>
+    <string name="fileprovider">com.ayukrisna.dicodingstory.fileprovider</string>
+
+
     <string name="nameCannotBeBlank">Eits! Namamu tidak boleh kosong.</string>
     <string name="emailCannotBeBlank">Eits! Emailmu tidak boleh kosong.</string>
     <string name="emailIsNotValid">Emailmu tidak valid, nih.</string>

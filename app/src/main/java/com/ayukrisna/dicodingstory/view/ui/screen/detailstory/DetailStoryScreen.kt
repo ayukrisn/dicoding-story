@@ -87,7 +87,6 @@ fun DetailStoryScreen (
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailStoryAppBar(title: String, onBackClick: () -> Unit) {
     CenterAppBar(title, onBackClick)

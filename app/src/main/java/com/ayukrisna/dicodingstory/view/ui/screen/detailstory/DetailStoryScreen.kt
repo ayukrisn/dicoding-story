@@ -38,7 +38,6 @@ import com.ayukrisna.dicodingstory.view.ui.component.LoadingProgress
 import com.ayukrisna.dicodingstory.view.ui.component.formatTimestamp
 import org.koin.androidx.compose.koinViewModel
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DetailStoryScreen (
     id: String,

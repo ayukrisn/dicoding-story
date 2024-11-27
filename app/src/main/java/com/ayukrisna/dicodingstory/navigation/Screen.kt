@@ -30,4 +30,7 @@ sealed class StoryScreen {
 
     @Serializable
     data class DetailStoryScreen(val id: String) : StoryScreen()
+
+    @Serializable
+    data object AddStoryScreen : StoryScreen()
 }

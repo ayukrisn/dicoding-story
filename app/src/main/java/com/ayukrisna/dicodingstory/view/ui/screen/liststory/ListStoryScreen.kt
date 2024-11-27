@@ -14,10 +14,14 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -48,6 +52,7 @@ import com.ayukrisna.dicodingstory.view.ui.component.LoadingProgress
 @Composable
 fun ListStoryScreen (
     onClick: (String) -> Unit,
+    onNavigateToAddStory: () -> Unit,
     viewModel: ListStoryViewModel = koinViewModel(),
     modifier: Modifier = Modifier
 ) {
@@ -60,6 +65,9 @@ fun ListStoryScreen (
     Scaffold(
         topBar = {
             ListStoryAppBar(stringResource(R.string.dicoding_story), stringResource(R.string.dicoding_subtitle))
+        },
+        floatingActionButton = {
+            AddStoryButton(onClick = onNavigateToAddStory)
         },
         content = { paddingValues ->
                 Column(modifier = Modifier
@@ -158,12 +166,11 @@ fun ItemListStory(
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun PreviewListStoryItem(modifier : Modifier = Modifier) {
-//    ItemListStory(
-//        photoUrl = "https://story-api.dicoding.dev/images/stories/photos-1732633121592_9a49bbb02b35aad5f8a1.jpg",
-//        name = "Sample Story",
-//        description = "This is a description of the story. It is concise and informative."
-//    )
-//}
+@Composable
+fun AddStoryButton(onClick: () -> Unit) {
+    ExtendedFloatingActionButton(
+        onClick = { onClick() },
+        icon = { Icon(Icons.Filled.Edit, "Add story action button.") },
+        text = { Text(text = stringResource(R.string.add_story)) },
+    )
+}

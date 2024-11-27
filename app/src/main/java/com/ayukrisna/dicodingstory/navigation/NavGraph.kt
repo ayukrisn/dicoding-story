@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.toRoute
+import com.ayukrisna.dicodingstory.view.ui.screen.addstory.AddStoryScreen
 import com.ayukrisna.dicodingstory.view.ui.screen.detailstory.DetailStoryScreen
 import com.ayukrisna.dicodingstory.view.ui.screen.liststory.ListStoryScreen
 import com.ayukrisna.dicodingstory.view.ui.screen.login.LoginScreen
@@ -74,6 +75,9 @@ fun NavGraph (
         }
         composable<StoryScreen.ListStoryScreen>{
             ListStoryScreen(
+                onNavigateToAddStory = {
+                  navController.navigate(StoryScreen.AddStoryScreen)
+                },
                 onClick = { id ->
                     navController.navigate(StoryScreen.DetailStoryScreen(id))
                 }
@@ -83,6 +87,11 @@ fun NavGraph (
             val detailStory = entry.toRoute<StoryScreen.DetailStoryScreen>()
             DetailStoryScreen(
                 id = detailStory.id,
+                onBackClick = { navController.popBackStack() }
+            )
+        }
+        composable<StoryScreen.AddStoryScreen>{
+            AddStoryScreen(
                 onBackClick = { navController.popBackStack() }
             )
         }

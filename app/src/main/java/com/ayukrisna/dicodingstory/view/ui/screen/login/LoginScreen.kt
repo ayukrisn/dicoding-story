@@ -43,7 +43,6 @@ fun LoginScreen(
     modifier: Modifier = Modifier,
 ) {
     val loginState by viewModel.loginState.observeAsState(initial = Result.Loading)
-//    val errorState by viewModel.errorState.collectAsState()
 
     Surface {
         Column (

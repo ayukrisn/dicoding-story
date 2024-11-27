@@ -14,6 +14,7 @@ import com.ayukrisna.dicodingstory.util.provideDataStore
 import org.koin.core.module.Module
 import org.koin.dsl.module
 import com.ayukrisna.dicodingstory.domain.usecase.RegisterUseCase
+import com.ayukrisna.dicodingstory.view.ui.screen.addstory.AddStoryViewModel
 import com.ayukrisna.dicodingstory.view.ui.screen.detailstory.DetailStoryViewModel
 import com.ayukrisna.dicodingstory.view.ui.screen.liststory.ListStoryViewModel
 import com.ayukrisna.dicodingstory.view.ui.screen.splash.SplashViewModel
@@ -53,4 +54,5 @@ val viewModelModules = module {
     viewModel{ LoginViewModel(get()) }
     viewModel{ ListStoryViewModel(get()) }
     viewModel{ DetailStoryViewModel(get()) }
+    viewModel{ AddStoryViewModel() }
 }

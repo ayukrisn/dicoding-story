@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -19,7 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -67,50 +65,63 @@ fun LargeTextArea(
     placeholder: String = "Tell us about your story here",
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Done,
+    errorMessage: UiText? = null,
+    isError: Boolean = false,
     modifier: Modifier = Modifier
 ) {
+    val context = LocalContext.current
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
     val colorBorder =
-        if (isFocused) {
+        if (isError) {
+            MaterialTheme.colorScheme.error
+        } else if (isFocused) {
             MaterialTheme.colorScheme.primary
         } else {
             MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
         }
-
-    Box(
-        modifier = modifier
-            .fillMaxWidth()
-            .shadow(elevation = 1.dp, shape = RoundedCornerShape(10.dp))
-            .background(MaterialTheme.colorScheme.surface)
-            .height(300.dp)
-            .border(1.dp, colorBorder, RoundedCornerShape(20.dp))
-            .padding(16.dp),
-    ) {
-        if (text.isEmpty()) {
-            Text(
-                text = placeholder,
-                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                style = TextStyle(
-                    fontSize = MaterialTheme.typography.bodyMedium.fontSize
+    Column (
+        modifier = Modifier.fillMaxWidth()
+    ){
+        Box(
+            modifier = modifier
+                .fillMaxWidth()
+                .shadow(elevation = 1.dp, shape = RoundedCornerShape(10.dp))
+                .background(MaterialTheme.colorScheme.surface)
+                .height(300.dp)
+                .border(1.dp, colorBorder, RoundedCornerShape(20.dp))
+                .padding(16.dp),
+        ) {
+            if (text.isEmpty()) {
+                Text(
+                    text = placeholder,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
+                    style = TextStyle(
+                        fontSize = MaterialTheme.typography.bodyMedium.fontSize
+                    )
                 )
+            }
+            BasicTextField(
+                value = text,
+                onValueChange = onValueChange,
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface),
+                interactionSource = interactionSource,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = keyboardType,
+                    imeAction = imeAction
+                ),
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(0.dp),
+                singleLine = false,
+                maxLines = 8
             )
         }
-        BasicTextField(
-            value = text,
-            onValueChange = onValueChange,
-            textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface),
-            interactionSource = interactionSource,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = keyboardType,
-                imeAction = imeAction
-            ),
-            cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(0.dp),
-            singleLine = false,
-            maxLines = 8
+        Text(
+            text = errorMessage?.asString(context).orEmpty(),
+            color = MaterialTheme.colorScheme.error,
+            style = MaterialTheme.typography.bodySmall,
         )
     }
 

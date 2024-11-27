@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -41,17 +40,30 @@ import coil.compose.AsyncImage
 import com.ayukrisna.dicodingstory.R
 import com.ayukrisna.dicodingstory.view.ui.component.CenterAppBar
 import com.ayukrisna.dicodingstory.view.ui.component.LargeTextArea
+import androidx.compose.runtime.livedata.observeAsState
+import com.ayukrisna.dicodingstory.util.Result
+import com.ayukrisna.dicodingstory.view.ui.screen.login.LoginState
+import org.koin.androidx.compose.koinViewModel
 import java.io.File
 
+/**
+ * Note to self: this part needs tons of work and clean up....
+ */
 @Composable
 fun AddStoryScreen(
+    viewModel: AddStoryViewModel = koinViewModel(),
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
+//    var draftState by mutableStateOf(AddStoryState())
+
     val directory = context.getExternalFilesDir("pictures")
     var selectedUri by rememberSaveable { mutableStateOf<Uri?>(null) }
-    val onSetUri: (Uri) -> Unit = { newUri -> selectedUri = newUri }
+    val onSetUri: (Uri) -> Unit = { newUri ->
+        selectedUri = newUri
+        viewModel.onEvent(AddStoryEvent.UriChanged(newUri))
+    }
     val tempUri = rememberSaveable { mutableStateOf<Uri?>(null) }
     val authority = stringResource(id = R.string.fileprovider)
 
@@ -142,7 +154,7 @@ fun AddStoryScreen(
     Scaffold(
         topBar = {
             AddStoryAppBar(
-                title = "Add Story",
+                title = stringResource(R.string.add_story),
                 onBackClick = { onBackClick() }
             )
         },
@@ -180,7 +192,9 @@ fun AddStoryScreen(
                     Text(text = "Add Photo")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                AddStoryField()
+                AddStoryField(viewModel)
+                Spacer(modifier = Modifier.height(16.dp))
+                AddStoryButton(viewModel)
             }
         }
     )
@@ -192,12 +206,14 @@ fun AddStoryAppBar(title: String, onBackClick: () -> Unit) {
 }
 
 @Composable
-fun AddStoryField() {
-    var text by remember { mutableStateOf("") }
-
+fun AddStoryField(viewModel: AddStoryViewModel) {
     LargeTextArea(
-        text = text,
-        onValueChange = { newText -> text = newText },
+        text = viewModel.draftState.storyDraft,
+        onValueChange = {
+            viewModel.onEvent(AddStoryEvent.StoryChanged(it))
+        },
+        isError = viewModel.draftState.storyError != null,
+        errorMessage = viewModel.draftState.storyError,
     )
 }
 
@@ -247,5 +263,20 @@ fun MyModalBottomSheet(
                 Text(text = "Cancel")
             }
         }
+    }
+}
+
+@Composable
+fun AddStoryButton(
+    viewModel: AddStoryViewModel,
+    modifier: Modifier = Modifier
+){
+    Button(onClick = {
+        viewModel.onEvent(AddStoryEvent.Submit)
+    },
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(0.dp, 16.dp, 0.dp, 8.dp)) {
+        Text(text = stringResource(R.string.add_story))
     }
 }

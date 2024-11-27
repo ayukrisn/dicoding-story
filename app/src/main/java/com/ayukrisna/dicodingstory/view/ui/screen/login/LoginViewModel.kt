@@ -43,7 +43,10 @@ class LoginViewModel(
             }
 
             is LoginEvent.Submit -> {
-                if (validateEmail() && validatePassword()) {
+                val isEmailValid = validateEmail()
+                val isPasswordValid = validatePassword()
+
+                if (isEmailValid && isPasswordValid) {
                     login(formState.email, formState.password )
                 }
             }

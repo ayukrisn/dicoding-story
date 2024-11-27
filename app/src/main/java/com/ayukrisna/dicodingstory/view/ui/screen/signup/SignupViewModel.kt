@@ -27,8 +27,6 @@ class SignupViewModel(private val registerUseCase: RegisterUseCase) : ViewModel(
     private val _signUpState = MutableLiveData<Result<RegisterResponse>>(Result.Idle)
     val signUpState: LiveData<Result<RegisterResponse>> = _signUpState
 
-//    private val _errorState = MutableStateFlow<String?>(null)
-//    val errorState: StateFlow<String?> = _errorState
 
     fun onEvent(event: SignupEvent) {
         when (event) {
@@ -52,8 +50,12 @@ class SignupViewModel(private val registerUseCase: RegisterUseCase) : ViewModel(
             }
 
             is SignupEvent.Submit -> {
-                if (validateName() && validateEmail() && validatePassword()) {
-                    signUp(formState.name, formState.email, formState.password )
+                val isNameValid = validateName()
+                val isEmailValid = validateEmail()
+                val isPasswordValid = validatePassword()
+
+                if (isNameValid && isEmailValid && isPasswordValid) {
+                    signUp(formState.name, formState.email, formState.password)
                 }
             }
         }

@@ -80,6 +80,11 @@ fun NavGraph (
                 },
                 onClick = { id ->
                     navController.navigate(StoryScreen.DetailStoryScreen(id))
+                },
+                onLogOut = {
+                    navController.navigate(AuthScreen.WelcomeScreen) {
+                        popUpTo(StoryScreen.ListStoryScreen) { inclusive = true }
+                    }
                 }
             )
         }

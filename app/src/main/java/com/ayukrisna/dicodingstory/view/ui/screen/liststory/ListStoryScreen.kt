@@ -15,7 +15,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -27,11 +30,15 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -53,10 +60,12 @@ import com.ayukrisna.dicodingstory.view.ui.component.LoadingProgress
 fun ListStoryScreen (
     onClick: (String) -> Unit,
     onNavigateToAddStory: () -> Unit,
+    onLogOut: () -> Unit,
     viewModel: ListStoryViewModel = koinViewModel(),
     modifier: Modifier = Modifier
 ) {
     val storiesState by viewModel.storiesState.collectAsState()
+    val showDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.fetchStories()
@@ -64,7 +73,14 @@ fun ListStoryScreen (
 
     Scaffold(
         topBar = {
-            ListStoryAppBar(stringResource(R.string.dicoding_story), stringResource(R.string.dicoding_subtitle))
+            ListStoryAppBar(
+                title = stringResource(R.string.dicoding_story),
+                subtitle = stringResource(R.string.dicoding_subtitle),
+                actionIcon = Icons.AutoMirrored.Filled.ExitToApp,
+                onActionClick = {
+                    showDialog.value = true
+                }
+            )
         },
         floatingActionButton = {
             AddStoryButton(onClick = onNavigateToAddStory)
@@ -103,14 +119,22 @@ fun ListStoryScreen (
                         }
                     }
                 }
+            LogoutAlertDialog(
+                showDialog = showDialog,
+                onConfirm = {
+                    viewModel.logOut()
+                    onLogOut()
+                },
+                onDismiss = {}
+            )
         }
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListStoryAppBar(title: String, subtitle: String) {
-    AppBar(title, subtitle)
+fun ListStoryAppBar(title: String, subtitle: String, actionIcon: ImageVector, onActionClick: () -> Unit) {
+    AppBar(title, subtitle, actionIcon, onActionClick)
 }
 
 @Composable
@@ -173,4 +197,39 @@ fun AddStoryButton(onClick: () -> Unit) {
         icon = { Icon(Icons.Filled.Edit, "Add story action button.") },
         text = { Text(text = stringResource(R.string.add_story)) },
     )
+}
+
+@Composable
+fun LogoutAlertDialog(
+    showDialog: MutableState<Boolean>,
+    onConfirm: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    if (showDialog.value) {
+        AlertDialog(
+            onDismissRequest = { showDialog.value = false },
+            title = {
+                Text(text = stringResource(R.string.logout), style = MaterialTheme.typography.titleLarge)
+            },
+            text = {
+                Text(text = stringResource(R.string.logout_confirmation))
+            },
+            confirmButton = {
+                Button(onClick = {
+                    showDialog.value = false
+                    onConfirm()
+                }) {
+                    Text(text = stringResource(R.string.logout))
+                }
+            },
+            dismissButton = {
+                Button(onClick = {
+                    showDialog.value = false
+                    onDismiss()
+                }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            }
+        )
+    }
 }

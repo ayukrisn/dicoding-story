@@ -19,4 +19,7 @@
     <string name="dicoding_subtitle">Ceritakan kisahmu</string>
     <string name="add_story">Tambah Story</string>
     <string name="story_upload_success">Story sudah diupload!</string>
+    <string name="logout">Log Out</string>
+    <string name="logout_confirmation">Apakah kamu yakin ingin log out dari aplikasi?</string>
+    <string name="cancel">Batal</string>
 </resources>

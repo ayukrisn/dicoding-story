@@ -11,6 +11,7 @@ import com.ayukrisna.dicodingstory.domain.usecase.AddStoryUseCase
 import com.ayukrisna.dicodingstory.domain.usecase.DetailStoryUseCase
 import com.ayukrisna.dicodingstory.domain.usecase.ListStoryUseCase
 import com.ayukrisna.dicodingstory.domain.usecase.LoginUseCase
+import com.ayukrisna.dicodingstory.domain.usecase.LogoutUseCase
 import com.ayukrisna.dicodingstory.util.provideDataStore
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -50,6 +51,7 @@ var repositoryModules : Module = module {
 val useCaseModules = module {
     single { RegisterUseCase(get()) }
     single { LoginUseCase(get()) }
+    single { LogoutUseCase(get()) }
     single { ListStoryUseCase(get()) }
     single { DetailStoryUseCase(get()) }
     single { AddStoryUseCase(get()) }
@@ -60,7 +62,7 @@ val viewModelModules = module {
     viewModel{ SplashViewModel(get()) }
     viewModel{ SignupViewModel(get()) }
     viewModel{ LoginViewModel(get()) }
-    viewModel{ ListStoryViewModel(get()) }
+    viewModel{ ListStoryViewModel(get(), get()) }
     viewModel{ DetailStoryViewModel(get()) }
     viewModel{ AddStoryViewModel(get(), get()) }
 }

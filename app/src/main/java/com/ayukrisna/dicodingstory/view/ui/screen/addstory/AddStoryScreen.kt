@@ -15,7 +15,10 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
@@ -165,7 +168,8 @@ fun AddStoryScreen(
                 modifier = Modifier
                     .fillMaxHeight()
                     .padding(paddingValues)
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = 16.dp)
+                    .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 if (selectedUri != null) {
@@ -202,8 +206,26 @@ fun AddStoryScreen(
                     is Result.Idle -> {}
                     is Result.Loading -> Text("Uploading...")
                     is Result.Success<*> -> {
-                        val addStoryResponse = (addStoryState as Result.Success<AddStoryResponse>).data
-                        Text("Story has been uploaded! ${addStoryResponse.message}")
+                        var showDialog by remember { mutableStateOf(true) }
+
+                        if (showDialog) {
+                            AlertDialog(
+                                onDismissRequest = { showDialog = false },
+                                title = { Text(text = "Success") },
+                                text = { Text(
+                                    stringResource(
+                                        R.string.story_upload_success
+                                    )) },
+                                confirmButton = {
+                                    Button(onClick = {
+                                        showDialog = false
+                                        onBackClick()
+                                    }) {
+                                        Text("OK")
+                                    }
+                                }
+                            )
+                        }
                     }
                     is Result.Error -> {
                         val error = (addStoryState as Result.Error).error

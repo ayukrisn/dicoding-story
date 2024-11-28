@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -76,7 +77,7 @@ fun DetailStoryScreen (
                             photoUrl = story.photoUrl ?: "https://picsum.photos/seed/picsum/200/300",
                             name = story.name ?: "No Name",
                             description = story.description ?: "No Description",
-                            time = ("Created at: " + story.createdAt?.let { formatTimestamp(it) })
+                            time = (stringResource(R.string.created_at) + story.createdAt?.let { formatTimestamp(it) })
                         )
                     }
                     is Result.Error -> {

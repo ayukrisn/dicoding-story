@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -62,7 +63,7 @@ fun PreviewLargeTextArea () {
 fun LargeTextArea(
     text: String,
     onValueChange: (String) -> Unit,
-    placeholder: String = "Tell us about your story here",
+    placeholder: String = stringResource(R.string.story_instruction),
     keyboardType: KeyboardType = KeyboardType.Text,
     imeAction: ImeAction = ImeAction.Done,
     errorMessage: UiText? = null,
@@ -213,7 +214,8 @@ fun CustomTextField(
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier
                                 .align(Alignment.CenterStart)
-                                .requiredSize(48.dp).padding(16.dp)
+                                .requiredSize(48.dp)
+                                .padding(16.dp)
                         )
                     }
                     Box(
@@ -316,7 +318,8 @@ fun PreviewPassword() {
                             contentDescription = "Visible",
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier
-                                .requiredSize(48.dp).padding(16.dp)
+                                .requiredSize(48.dp)
+                                .padding(16.dp)
                         )
                     }
                 }

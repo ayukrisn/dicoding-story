@@ -188,14 +188,14 @@ fun AddStoryScreen(
                         )
                     }
                 } else {
-                    Text(text = "No image selected.")
+                    Text(text = stringResource(R.string.no_image_selected))
                 }
 
                 Button(
                     onClick = { showBottomSheet = true },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(text = "Add Photo")
+                    Text(text = stringResource(R.string.add_photo))
                 }
                 Spacer(modifier = Modifier.height(16.dp))
                 AddStoryField(viewModel)

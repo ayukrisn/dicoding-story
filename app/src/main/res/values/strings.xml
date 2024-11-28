@@ -2,24 +2,27 @@
     <string name="app_name">DicodingStory</string>
     <string name="fileprovider">com.ayukrisna.dicodingstory.fileprovider</string>
 
-
-    <string name="nameCannotBeBlank">Eits! Namamu tidak boleh kosong.</string>
-    <string name="emailCannotBeBlank">Eits! Emailmu tidak boleh kosong.</string>
-    <string name="storyCannotBeBlank">Eits! Kamu lupa bercerita :(</string>
-    <string name="emailIsNotValid">Emailmu tidak valid, nih.</string>
-    <string name="passwordLessThanEightChars">Pastikan passwordmu terdiri dari 8 karakter atau lebih, ya!</string>
+    <string name="nameCannotBeBlank">Oops! Your name cannot be empty.</string>
+    <string name="emailCannotBeBlank">Oops! Your email cannot be empty.</string>
+    <string name="storyCannotBeBlank">Oops! You forgot to tell your story :(</string>
+    <string name="emailIsNotValid">Your email is not valid.</string>
+    <string name="passwordLessThanEightChars">Make sure your password is at least 8 characters long!</string>
     <string name="testing_error">Testing error</string>
     <string name="log_in">Log In</string>
-    <string name="login_instruction">Ayo log in terlebih dahulu!</string>
+    <string name="login_instruction">Please log in first!</string>
     <string name="sign_up">Sign Up</string>
-    <string name="sign_up_description">Ayo daftarkan dirimu terlebih dahulu!</string>
-    <string name="name">Nama</string>
+    <string name="sign_up_description">Please register yourself first!</string>
+    <string name="name">Name</string>
     <string name="dicoding_story">Dicoding Story</string>
-    <string name="dicoding_introduction">Temukan inspirasi dan perjalanan seru bersama para developer di Dicoding Story—tempat berbagi pengalaman, belajar, dan bertumbuh bersama komunitas teknologi!</string>
-    <string name="dicoding_subtitle">Ceritakan kisahmu</string>
-    <string name="add_story">Tambah Story</string>
-    <string name="story_upload_success">Story sudah diupload!</string>
+    <string name="dicoding_introduction">Discover inspiration and exciting journeys with fellow developers on Dicoding Story—a place to share experiences, learn, and grow with the tech community!</string>
+    <string name="dicoding_subtitle">Tell your story</string>
+    <string name="add_story">Add Story</string>
+    <string name="story_upload_success">Your story has been uploaded!</string>
     <string name="logout">Log Out</string>
-    <string name="logout_confirmation">Apakah kamu yakin ingin log out dari aplikasi?</string>
-    <string name="cancel">Batal</string>
+    <string name="logout_confirmation">Are you sure you want to log out of the app?</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="story_instruction">Tell us about your story here</string>
+    <string name="no_image_selected">No image selected.</string>
+    <string name="created_at">"Created at: "</string>
 </resources>

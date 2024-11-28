@@ -1,5 +1,6 @@
 package com.ayukrisna.dicodingstory.view.ui.screen.liststory
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -17,6 +18,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -40,6 +42,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -55,6 +58,7 @@ import com.ayukrisna.dicodingstory.view.ui.theme.DicodingStoryTheme
 import org.koin.androidx.compose.koinViewModel
 import com.ayukrisna.dicodingstory.util.Result
 import com.ayukrisna.dicodingstory.view.ui.component.LoadingProgress
+import android.provider.Settings
 
 @Composable
 fun ListStoryScreen (
@@ -66,6 +70,7 @@ fun ListStoryScreen (
 ) {
     val storiesState by viewModel.storiesState.collectAsState()
     val showDialog = remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         viewModel.fetchStories()
@@ -77,8 +82,13 @@ fun ListStoryScreen (
                 title = stringResource(R.string.dicoding_story),
                 subtitle = stringResource(R.string.dicoding_subtitle),
                 actionIcon = Icons.AutoMirrored.Filled.ExitToApp,
+                actionIcon2 = Icons.Filled.Menu,
                 onActionClick = {
                     showDialog.value = true
+                },
+                onActionClick2 = {
+                    val intent = Intent(Settings.ACTION_LOCALE_SETTINGS)
+                    context.startActivity(intent)
                 }
             )
         },
@@ -133,8 +143,21 @@ fun ListStoryScreen (
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListStoryAppBar(title: String, subtitle: String, actionIcon: ImageVector, onActionClick: () -> Unit) {
-    AppBar(title, subtitle, actionIcon, onActionClick)
+fun ListStoryAppBar(
+    title: String,
+    subtitle: String,
+    actionIcon: ImageVector,
+    actionIcon2: ImageVector,
+    onActionClick: () -> Unit,
+    onActionClick2: () -> Unit) {
+    AppBar(
+        title,
+        subtitle,
+        actionIcon,
+        actionIcon2,
+        onActionClick,
+        onActionClick2
+    )
 }
 
 @Composable

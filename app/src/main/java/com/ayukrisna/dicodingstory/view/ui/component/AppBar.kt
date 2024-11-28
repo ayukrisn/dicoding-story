@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -21,7 +20,13 @@ import androidx.compose.ui.text.font.FontWeight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(title: String, subtitle: String, actionIcon: ImageVector, onActionClick: () -> Unit) {
+fun AppBar(
+    title: String,
+    subtitle: String,
+    actionIcon: ImageVector,
+    actionIcon2: ImageVector,
+    onActionClick: () -> Unit,
+    onActionClick2: () -> Unit) {
     TopAppBar(
         title = {
             Column(
@@ -48,6 +53,13 @@ fun AppBar(title: String, subtitle: String, actionIcon: ImageVector, onActionCli
                 Icon(
                     imageVector = actionIcon,
                     contentDescription = "Action",
+                    tint = MaterialTheme.colorScheme.primary
+                )
+            }
+            IconButton(onClick = { onActionClick2() }) {
+                Icon(
+                    imageVector = actionIcon2,
+                    contentDescription = "Action 2",
                     tint = MaterialTheme.colorScheme.primary
                 )
             }

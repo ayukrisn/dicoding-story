@@ -59,7 +59,7 @@ class FileHelper(private val context: Context) {
     }
 
 
-    private fun Bitmap.getRotatedBitmap(file: File): Bitmap? {
+    private fun Bitmap.getRotatedBitmap(file: File): Bitmap {
         val orientation = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ExifInterface(file).getAttributeInt(
                 ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED

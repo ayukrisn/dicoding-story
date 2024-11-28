@@ -1,6 +1,5 @@
 package com.ayukrisna.dicodingstory.domain.usecase
 
-import com.ayukrisna.dicodingstory.data.remote.response.ListStoryItem
 import com.ayukrisna.dicodingstory.data.remote.response.Story
 import com.ayukrisna.dicodingstory.domain.repository.StoryRepository
 import com.ayukrisna.dicodingstory.util.Result

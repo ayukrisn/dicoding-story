@@ -7,7 +7,6 @@
     <string name="storyCannotBeBlank">Oops! You forgot to tell your story :(</string>
     <string name="emailIsNotValid">Your email is not valid.</string>
     <string name="passwordLessThanEightChars">Make sure your password is at least 8 characters long!</string>
-    <string name="testing_error">Testing error</string>
     <string name="log_in">Log In</string>
     <string name="login_instruction">Please log in first!</string>
     <string name="sign_up">Sign Up</string>

@@ -13,8 +13,6 @@ import com.ayukrisna.dicodingstory.domain.usecase.ValidateEmailUseCase
 import com.ayukrisna.dicodingstory.domain.usecase.ValidateNameUseCase
 import com.ayukrisna.dicodingstory.domain.usecase.ValidatePasswordUseCase
 import com.ayukrisna.dicodingstory.util.Result
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class SignupViewModel(private val registerUseCase: RegisterUseCase) : ViewModel() {

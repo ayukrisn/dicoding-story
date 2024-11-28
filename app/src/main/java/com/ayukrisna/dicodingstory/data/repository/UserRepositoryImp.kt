@@ -8,7 +8,6 @@ import com.ayukrisna.dicodingstory.domain.model.UserModel
 import com.ayukrisna.dicodingstory.domain.repository.UserRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
 
 class UserRepositoryImp (
     private val userPreference: UserPreference

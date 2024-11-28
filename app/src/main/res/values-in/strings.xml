@@ -8,7 +8,6 @@
     <string name="storyCannotBeBlank">Eits! Kamu lupa bercerita :(</string>
     <string name="emailIsNotValid">Emailmu tidak valid, nih.</string>
     <string name="passwordLessThanEightChars">Pastikan passwordmu terdiri dari 8 karakter atau lebih, ya!</string>
-    <string name="testing_error">Testing error</string>
     <string name="log_in">Log In</string>
     <string name="login_instruction">Ayo log in terlebih dahulu!</string>
     <string name="sign_up">Sign Up</string>

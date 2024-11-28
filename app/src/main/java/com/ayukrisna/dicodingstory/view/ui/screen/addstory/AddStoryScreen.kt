@@ -43,8 +43,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.AsyncImage
 import com.ayukrisna.dicodingstory.R
-import com.ayukrisna.dicodingstory.data.remote.response.AddStoryResponse
-import com.ayukrisna.dicodingstory.data.remote.response.RegisterResponse
 import com.ayukrisna.dicodingstory.util.Result
 import com.ayukrisna.dicodingstory.view.ui.component.CenterAppBar
 import com.ayukrisna.dicodingstory.view.ui.component.LargeTextArea

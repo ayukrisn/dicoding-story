@@ -8,8 +8,6 @@ import androidx.navigation.compose.rememberNavController
 import com.ayukrisna.dicodingstory.MyApp
 import com.ayukrisna.dicodingstory.navigation.NavGraph
 import com.ayukrisna.dicodingstory.view.ui.theme.DicodingStoryTheme
-import com.ayukrisna.dicodingstory.view.ui.screen.login.LoginScreen
-import com.ayukrisna.dicodingstory.view.ui.screen.welcome.WelcomeScreen
 import org.koin.core.annotation.KoinExperimentalAPI
 
 class MainActivity : ComponentActivity() {

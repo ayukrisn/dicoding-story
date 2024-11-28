@@ -1,7 +1,5 @@
 package com.ayukrisna.dicodingstory.domain.repository
 
-import android.content.Context
-import android.net.Uri
 import com.ayukrisna.dicodingstory.data.remote.response.AddStoryResponse
 import com.ayukrisna.dicodingstory.data.remote.response.DetailStoryResponse
 import com.ayukrisna.dicodingstory.data.remote.response.ListStoryResponse

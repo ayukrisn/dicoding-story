@@ -1,7 +1,5 @@
 package com.ayukrisna.dicodingstory.data.remote.response
 
-import kotlinx.parcelize.Parcelize
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 data class LoginResponse(

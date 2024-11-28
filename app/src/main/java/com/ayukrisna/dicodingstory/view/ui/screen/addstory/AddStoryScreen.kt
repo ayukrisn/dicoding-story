@@ -23,6 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -30,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -38,11 +40,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import coil.compose.AsyncImage
 import com.ayukrisna.dicodingstory.R
+import com.ayukrisna.dicodingstory.data.remote.response.AddStoryResponse
+import com.ayukrisna.dicodingstory.data.remote.response.RegisterResponse
+import com.ayukrisna.dicodingstory.util.Result
 import com.ayukrisna.dicodingstory.view.ui.component.CenterAppBar
 import com.ayukrisna.dicodingstory.view.ui.component.LargeTextArea
-import androidx.compose.runtime.livedata.observeAsState
-import com.ayukrisna.dicodingstory.util.Result
-import com.ayukrisna.dicodingstory.view.ui.screen.login.LoginState
 import org.koin.androidx.compose.koinViewModel
 import java.io.File
 
@@ -56,7 +58,7 @@ fun AddStoryScreen(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-//    var draftState by mutableStateOf(AddStoryState())
+    val addStoryState by viewModel.addStoryState.observeAsState(initial = Result.Loading)
 
     val directory = context.getExternalFilesDir("pictures")
     var selectedUri by rememberSaveable { mutableStateOf<Uri?>(null) }
@@ -195,6 +197,19 @@ fun AddStoryScreen(
                 AddStoryField(viewModel)
                 Spacer(modifier = Modifier.height(16.dp))
                 AddStoryButton(viewModel)
+                Spacer(modifier = Modifier.height(4.dp))
+                when (addStoryState) {
+                    is Result.Idle -> {}
+                    is Result.Loading -> Text("Uploading...")
+                    is Result.Success<*> -> {
+                        val addStoryResponse = (addStoryState as Result.Success<AddStoryResponse>).data
+                        Text("Story has been uploaded! ${addStoryResponse.message}")
+                    }
+                    is Result.Error -> {
+                        val error = (addStoryState as Result.Error).error
+                        Text("Error: $error", color = Color.Red)
+                    }
+                }
             }
         }
     )

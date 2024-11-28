@@ -1,16 +1,28 @@
 package com.ayukrisna.dicodingstory.view.ui.screen.addstory
 
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ayukrisna.dicodingstory.data.remote.response.AddStoryResponse
+import com.ayukrisna.dicodingstory.domain.usecase.AddStoryUseCase
 import com.ayukrisna.dicodingstory.domain.usecase.ValidateStoryUseCase
+import com.ayukrisna.dicodingstory.util.FileHelper
 import com.ayukrisna.dicodingstory.util.Result
+import kotlinx.coroutines.launch
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 
-class AddStoryViewModel : ViewModel() {
+class AddStoryViewModel(
+    private val addStoryUseCase: AddStoryUseCase,
+    private val fileHelper: FileHelper
+) : ViewModel() {
     private val validateStoryUseCase = ValidateStoryUseCase()
     var draftState by mutableStateOf(AddStoryState())
 
@@ -32,7 +44,7 @@ class AddStoryViewModel : ViewModel() {
                 val isUriValid = validateUri()
 
                 if (isStoryValid && isUriValid)
-                addStory()
+                addStory(draftState.storyDraft, draftState.uriPicture)
             }
         }
     }
@@ -49,8 +61,19 @@ class AddStoryViewModel : ViewModel() {
         return uriResult.successful
     }
 
-    private fun addStory() {
-
+    private fun addStory(description: String, photoUri: Uri, lat: Float? = null, lon: Float? = null) {
+        viewModelScope.launch {
+            _addStoryState.value = Result.Loading
+            val imageFile = fileHelper.uriToFile(photoUri)
+            val reducedImageFile = fileHelper.reduceFileImage(imageFile)
+            val requestImageFile = reducedImageFile.asRequestBody("image/jpeg".toMediaType())
+            val multipartBody = MultipartBody.Part.createFormData(
+                "photo",
+                imageFile.name,
+                requestImageFile
+            )
+            val result = addStoryUseCase.execute(description, multipartBody, lat, lon)
+            _addStoryState.value = result
+        }
     }
-
 }

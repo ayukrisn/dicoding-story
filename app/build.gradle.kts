@@ -68,6 +68,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.androidx.runtime.livedata)
     implementation(libs.coil.compose)
+    implementation(libs.androidx.exifinterface)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

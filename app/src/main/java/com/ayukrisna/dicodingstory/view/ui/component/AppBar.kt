@@ -85,5 +85,6 @@ fun CenterAppBar(title: String, onBackClick: () -> Unit) {
                     tint = MaterialTheme.colorScheme.primary
                 )
             }
-        },)
+        },
+        )
 }

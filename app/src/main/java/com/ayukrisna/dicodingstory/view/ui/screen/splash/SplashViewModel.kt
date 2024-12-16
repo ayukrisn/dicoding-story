@@ -13,6 +13,6 @@ class SplashViewModel (
     private val userRepository: UserRepository
 ) : ViewModel(){
     val userSession: StateFlow<UserModel> = userRepository.getSession()
-        .map { user -> user } // Perform any necessary transformations
+        .map { user -> user }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), UserModel("", "", "", "", false))
 }

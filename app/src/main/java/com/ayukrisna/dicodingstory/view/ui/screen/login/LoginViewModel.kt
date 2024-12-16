@@ -19,7 +19,7 @@ class LoginViewModel(
     private val validateEmailUseCase = ValidateEmailUseCase()
     private val validatePasswordUseCase = ValidatePasswordUseCase()
 
-    var formState by mutableStateOf(LoginState()) //initialize with default state values
+    var formState by mutableStateOf(LoginState())
 
     private val _loginState = MutableLiveData<Result<Unit>>(Result.Idle)
     val loginState: LiveData<Result<Unit>> = _loginState

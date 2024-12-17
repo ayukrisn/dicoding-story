@@ -1,8 +1,13 @@
 package com.ayukrisna.dicodingstory.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.ayukrisna.dicodingstory.data.local.pref.UserPreference
+import com.ayukrisna.dicodingstory.data.paging.StoryPagingSource
 import com.ayukrisna.dicodingstory.data.remote.response.AddStoryResponse
 import com.ayukrisna.dicodingstory.data.remote.response.DetailStoryResponse
+import com.ayukrisna.dicodingstory.data.remote.response.ListStoryItem
 import com.ayukrisna.dicodingstory.data.remote.response.ListStoryResponse
 import com.ayukrisna.dicodingstory.data.remote.retrofit.ApiConfig
 import com.ayukrisna.dicodingstory.domain.model.UserModel
@@ -22,18 +27,17 @@ class StoryRepositoryImp (
         return userPreference.getSession()
     }
 
-    override suspend fun getStories(): ListStoryResponse {
+    override suspend fun getStories(): Flow<PagingData<ListStoryItem>> {
         val token = userPreference.getSession().first().token
         val apiService = ApiConfig.getApiService(token)
-        val response = apiService.getStories()
 
-        if (response.isSuccessful) {
-            return response.body() ?: throw Exception("Response body is null")
-        } else {
-            val errorBody = response.errorBody()?.string()
-            val errorResponse = errorBody?.let { parseErrorBody(it) }
-            throw Exception(errorResponse?.message ?: "HTTP ${response.code()} error")
-        }
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { StoryPagingSource(apiService) }
+        ).flow
     }
 
     override suspend fun getStoriesWithLocation(): ListStoryResponse {

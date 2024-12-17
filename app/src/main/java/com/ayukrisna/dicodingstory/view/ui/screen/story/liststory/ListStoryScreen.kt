@@ -1,3 +1,4 @@
+
 package com.ayukrisna.dicodingstory.view.ui.screen.story.liststory
 
 import android.content.Intent
@@ -6,11 +7,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
@@ -27,10 +28,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -42,10 +40,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.itemKey
 import coil.compose.AsyncImage
 import com.ayukrisna.dicodingstory.R
-import com.ayukrisna.dicodingstory.data.remote.response.ListStoryItem
-import com.ayukrisna.dicodingstory.util.Result
 import com.ayukrisna.dicodingstory.view.ui.component.AppBar
 import com.ayukrisna.dicodingstory.view.ui.component.LoadingProgress
 import org.koin.androidx.compose.koinViewModel
@@ -58,13 +56,9 @@ fun ListStoryScreen (
     viewModel: ListStoryViewModel = koinViewModel(),
     modifier: Modifier = Modifier
 ) {
-    val storiesState by viewModel.storiesState.collectAsState()
+    val pagingData = viewModel.stories.collectAsLazyPagingItems()
     val showDialog = remember { mutableStateOf(false) }
     val context = LocalContext.current
-
-    LaunchedEffect(Unit) {
-        viewModel.fetchStories()
-    }
 
     Scaffold(
         topBar = {
@@ -86,39 +80,44 @@ fun ListStoryScreen (
             AddStoryButton(onClick = onNavigateToAddStory)
         },
         content = { paddingValues ->
-                Column(modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(paddingValues)
-                    .padding(horizontal = 16.dp)
-                ) {
-                    when (storiesState) {
-                        is Result.Idle -> Text("Idle State")
-                        is Result.Loading -> LoadingProgress()
-                        is Result.Success -> {
-                            val stories: List<ListStoryItem> = (storiesState as Result.Success<List<ListStoryItem>>).data
-                            if (stories.isNotEmpty()) {
-                                LazyColumn {
-                                    items(stories) { story ->
-                                        ItemListStory(
-                                            photoUrl = story.photoUrl ?: "https://picsum.photos/seed/picsum/200/300",
-                                            name = story.name ?: "No Name",
-                                            description = story.description ?: "No Description",
-                                            onClick = {
-                                                story.id?.let { onClick(it) }
-                                            }
-                                        )
-                                    }
-                                }
-                            } else {
-                                Text("No stories available")
-                            }
+            Column(modifier = Modifier
+                .fillMaxHeight()
+                .padding(paddingValues)
+                .padding(horizontal = 16.dp)
+            ) {
+                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                    item {
+                        if (pagingData.loadState.refresh is androidx.paging.LoadState.Loading) {
+                            LoadingProgress()
                         }
-                        is Result.Error -> {
-                            val error = (storiesState as Result.Error).error
-                            Text("Error: $error")
+                    }
+
+                    items(
+                        pagingData.itemCount,
+                        key = pagingData.itemKey { it.id!! }
+                    ) { index ->
+                        val story = pagingData[index]
+                        if (story != null) {
+                            ItemListStory(
+                                photoUrl = story.photoUrl ?: "https://picsum.photos/seed/picsum/200/300",
+                                name = story.name ?: "No Name",
+                                description = story.description ?: "No Description",
+                                onClick = {
+                                    story.id?.let { onClick(it) }
+                                }
+                            )
+                        } else {
+                            Text("No stories available")
+                        }
+                    }
+
+                    item {
+                        if (pagingData.loadState.append is androidx.paging.LoadState.Loading) {
+                            LoadingProgress()
                         }
                     }
                 }
+            }
             LogoutAlertDialog(
                 showDialog = showDialog,
                 onConfirm = {
@@ -164,8 +163,8 @@ fun ItemListStory(
             .padding(vertical = 8.dp)
             .clickable { onClick() },
         colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceBright
-                ),
+            containerColor = MaterialTheme.colorScheme.surfaceBright
+        ),
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(1.dp)
     ) {

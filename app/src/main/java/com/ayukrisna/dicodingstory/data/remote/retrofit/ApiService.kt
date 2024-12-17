@@ -34,7 +34,10 @@ interface ApiService {
     ) : Response<LoginResponse>
 
     @GET("stories")
-    suspend fun getStories(): Response<ListStoryResponse>
+    suspend fun getStories(
+        @Query("page") page: Int = 1,
+        @Query("size") size: Int = 20
+    ): Response<ListStoryResponse>
 
     @GET("stories")
     suspend fun getStoriesWithLocation(

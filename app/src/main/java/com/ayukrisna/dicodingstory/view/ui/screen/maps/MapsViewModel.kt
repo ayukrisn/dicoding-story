@@ -19,7 +19,7 @@ class MapsViewModel(
         _storiesState.value = Result.Loading
 
         viewModelScope.launch {
-            val result = listStoryUseCase.execute(true)
+            val result = listStoryUseCase.loadWithLocation()
             _storiesState.value = result
         }
     }

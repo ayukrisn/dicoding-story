@@ -7,6 +7,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
 import com.ayukrisna.dicodingstory.MyApp
 import com.ayukrisna.dicodingstory.navigation.NavGraph
+import com.ayukrisna.dicodingstory.view.ui.MainScreen
 import com.ayukrisna.dicodingstory.view.ui.theme.DicodingStoryTheme
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -18,8 +19,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             DicodingStoryTheme {
                 MyApp()
-                val navController = rememberNavController()
-                NavGraph(navController = navController)
+                MainScreen()
             }
         }
     }

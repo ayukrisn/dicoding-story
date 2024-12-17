@@ -2,11 +2,17 @@ package com.ayukrisna.dicodingstory.navigation
 
 import kotlinx.serialization.Serializable
 
-//@Serializable
-//sealed class RootScreen {
-//    @Serializable
-//    object AuthNav
-//}
+@Serializable
+sealed class RootScreen {
+    @Serializable
+    object AuthNav
+    @Serializable
+    object StoryNav
+    @Serializable
+    object MapNav
+    @Serializable
+    object SettingNav
+}
 
 @Serializable
 sealed class AuthScreen {
@@ -33,4 +39,16 @@ sealed class StoryScreen {
 
     @Serializable
     data object AddStoryScreen : StoryScreen()
+}
+
+@Serializable
+sealed class MapScreen {
+    @Serializable
+    data object Map : MapScreen()
+}
+
+@Serializable
+sealed class SettingScreen {
+    @Serializable
+    data object Setting : SettingScreen()
 }

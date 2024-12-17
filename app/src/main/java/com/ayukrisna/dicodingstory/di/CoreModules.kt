@@ -1,7 +1,7 @@
 package com.ayukrisna.dicodingstory.di
 
-import com.ayukrisna.dicodingstory.view.ui.screen.login.LoginViewModel
-import com.ayukrisna.dicodingstory.view.ui.screen.signup.SignupViewModel
+import com.ayukrisna.dicodingstory.view.ui.screen.auth.login.LoginViewModel
+import com.ayukrisna.dicodingstory.view.ui.screen.auth.signup.SignupViewModel
 import com.ayukrisna.dicodingstory.data.local.pref.UserPreference
 import com.ayukrisna.dicodingstory.data.repository.UserRepositoryImp
 import com.ayukrisna.dicodingstory.data.repository.StoryRepositoryImp
@@ -17,10 +17,10 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import com.ayukrisna.dicodingstory.domain.usecase.RegisterUseCase
 import com.ayukrisna.dicodingstory.util.FileHelper
-import com.ayukrisna.dicodingstory.view.ui.screen.addstory.AddStoryViewModel
-import com.ayukrisna.dicodingstory.view.ui.screen.detailstory.DetailStoryViewModel
-import com.ayukrisna.dicodingstory.view.ui.screen.liststory.ListStoryViewModel
-import com.ayukrisna.dicodingstory.view.ui.screen.splash.SplashViewModel
+import com.ayukrisna.dicodingstory.view.ui.screen.story.addstory.AddStoryViewModel
+import com.ayukrisna.dicodingstory.view.ui.screen.story.detailstory.DetailStoryViewModel
+import com.ayukrisna.dicodingstory.view.ui.screen.story.liststory.ListStoryViewModel
+import com.ayukrisna.dicodingstory.view.ui.screen.auth.splash.SplashViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.dsl.singleOf

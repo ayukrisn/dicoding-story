@@ -1,18 +1,16 @@
-package com.ayukrisna.dicodingstory.view.ui.screen.story.liststory
+package com.ayukrisna.dicodingstory.view.ui.screen.maps
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ayukrisna.dicodingstory.data.remote.response.ListStoryItem
 import com.ayukrisna.dicodingstory.domain.usecase.ListStoryUseCase
-import com.ayukrisna.dicodingstory.domain.usecase.LogoutUseCase
-import kotlinx.coroutines.flow.MutableStateFlow
 import com.ayukrisna.dicodingstory.util.Result
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ListStoryViewModel (
+class MapsViewModel(
     private val listStoryUseCase: ListStoryUseCase,
-    private val logoutUseCase: LogoutUseCase
 ) : ViewModel() {
     private val _storiesState = MutableStateFlow<Result<List<ListStoryItem>>>(Result.Idle)
     val storiesState: StateFlow<Result<List<ListStoryItem>>> = _storiesState
@@ -21,14 +19,8 @@ class ListStoryViewModel (
         _storiesState.value = Result.Loading
 
         viewModelScope.launch {
-            val result = listStoryUseCase.execute(false)
+            val result = listStoryUseCase.execute(true)
             _storiesState.value = result
-        }
-    }
-
-    fun logOut() {
-        viewModelScope.launch {
-            logoutUseCase.execute()
         }
     }
 }

@@ -36,6 +36,20 @@ class StoryRepositoryImp (
         }
     }
 
+    override suspend fun getStoriesWithLocation(): ListStoryResponse {
+        val token = userPreference.getSession().first().token
+        val apiService = ApiConfig.getApiService(token)
+        val response = apiService.getStoriesWithLocation()
+
+        if (response.isSuccessful) {
+            return response.body() ?: throw Exception("Response body is null")
+        } else {
+            val errorBody = response.errorBody()?.string()
+            val errorResponse = errorBody?.let { parseErrorBody(it) }
+            throw Exception(errorResponse?.message ?: "HTTP ${response.code()} error")
+        }
+    }
+
     override suspend fun getDetailStory(id: String): DetailStoryResponse {
         val token = userPreference.getSession().first().token
         val apiService = ApiConfig.getApiService(token)

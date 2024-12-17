@@ -5,9 +5,13 @@ import com.ayukrisna.dicodingstory.domain.repository.StoryRepository
 import com.ayukrisna.dicodingstory.util.Result
 
 class ListStoryUseCase(private val storyRepository: StoryRepository) {
-    suspend fun execute(): Result<List<ListStoryItem>> {
+    suspend fun execute(location: Boolean): Result<List<ListStoryItem>> {
         return try {
-            val response = storyRepository.getStories()
+            val response = if (location) {
+                storyRepository.getStoriesWithLocation()
+            } else {
+                storyRepository.getStories()
+            }
             if (response.error == false) {
                 val getStoriesResult = response.listStory?.filterNotNull()
                 if (getStoriesResult != null) {

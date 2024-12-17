@@ -10,6 +10,7 @@ import okhttp3.MultipartBody
 interface StoryRepository {
     fun getSession(): Flow<UserModel>
     suspend fun getStories() : ListStoryResponse
+    suspend fun getStoriesWithLocation() : ListStoryResponse
     suspend fun getDetailStory(id: String) : DetailStoryResponse
     suspend fun addStory(description: String, photoUri: MultipartBody.Part, lat: Float? = null, lon: Float? = null) : AddStoryResponse
 }

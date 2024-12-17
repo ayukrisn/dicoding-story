@@ -21,6 +21,7 @@ import com.ayukrisna.dicodingstory.view.ui.screen.story.addstory.AddStoryViewMod
 import com.ayukrisna.dicodingstory.view.ui.screen.story.detailstory.DetailStoryViewModel
 import com.ayukrisna.dicodingstory.view.ui.screen.story.liststory.ListStoryViewModel
 import com.ayukrisna.dicodingstory.view.ui.screen.auth.splash.SplashViewModel
+import com.ayukrisna.dicodingstory.view.ui.screen.maps.MapsViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.dsl.singleOf
@@ -63,6 +64,7 @@ val viewModelModules = module {
     viewModel{ SignupViewModel(get()) }
     viewModel{ LoginViewModel(get()) }
     viewModel{ ListStoryViewModel(get(), get()) }
+    viewModel{ MapsViewModel(get()) }
     viewModel{ DetailStoryViewModel(get()) }
     viewModel{ AddStoryViewModel(get(), get()) }
 }

@@ -1,6 +1,8 @@
 package com.ayukrisna.dicodingstory.di
 
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.ayukrisna.dicodingstory.data.local.database.StoryDatabase
 import com.ayukrisna.dicodingstory.view.ui.screen.auth.login.LoginViewModel
 import com.ayukrisna.dicodingstory.view.ui.screen.auth.signup.SignupViewModel
@@ -37,11 +39,20 @@ val databaseModule = module {
             StoryDatabase::class.java,
             "story_database"
         )
-            .fallbackToDestructiveMigration()
+            .addMigrations(MIGRATION_1_2)
             .build()
     }
 
+    single { get<StoryDatabase>().remoteKeysDao() }
     single { get<StoryDatabase>().storyDao() }
+}
+
+private val MIGRATION_1_2 = object : Migration(1, 2) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `remote_keys` (`id` TEXT NOT NULL, `prevKey` INTEGER, `nextKey` INTEGER, PRIMARY KEY(`id`))"
+        )
+    }
 }
 
 

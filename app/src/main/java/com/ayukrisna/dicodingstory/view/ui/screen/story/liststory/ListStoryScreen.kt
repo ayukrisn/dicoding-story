@@ -118,14 +118,14 @@ fun ListStoryScreen (
                     }
                 }
             }
-            LogoutAlertDialog(
-                showDialog = showDialog,
-                onConfirm = {
-                    viewModel.logOut()
-                    onLogOut()
-                },
-                onDismiss = {}
-            )
+//            LogoutAlertDialog(
+//                showDialog = showDialog,
+//                onConfirm = {
+//                    viewModel.logOut()
+//                    onLogOut()
+//                },
+//                onDismiss = {}
+//            )
         }
     )
 }

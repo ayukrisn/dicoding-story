@@ -15,12 +15,16 @@ import kotlinx.coroutines.launch
 
 class ListStoryViewModel (
     private val listStoryUseCase: ListStoryUseCase,
-    private val logoutUseCase: LogoutUseCase
+//    private val logoutUseCase: LogoutUseCase
 ) : ViewModel() {
     private val _stories = MutableStateFlow<PagingData<ListStoryItem>>(PagingData.empty())
     val stories: StateFlow<PagingData<ListStoryItem>> = _stories
 
     init {
+        loadStory()
+    }
+
+    fun loadStory() {
         viewModelScope.launch {
             listStoryUseCase.loadStory()
                 .cachedIn(viewModelScope)
@@ -30,9 +34,9 @@ class ListStoryViewModel (
         }
     }
 
-    fun logOut() {
-        viewModelScope.launch {
-            logoutUseCase.execute()
-        }
-    }
+//    fun logOut() {
+//        viewModelScope.launch {
+//            logoutUseCase.execute()
+//        }
+//    }
 }

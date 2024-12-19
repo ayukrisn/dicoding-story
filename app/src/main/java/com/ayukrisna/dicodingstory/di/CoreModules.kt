@@ -63,7 +63,7 @@ val viewModelModules = module {
     viewModel{ SplashViewModel(get()) }
     viewModel{ SignupViewModel(get()) }
     viewModel{ LoginViewModel(get()) }
-    viewModel{ ListStoryViewModel(get(), get()) }
+    viewModel{ ListStoryViewModel(get()) }
     viewModel{ MapsViewModel(get()) }
     viewModel{ DetailStoryViewModel(get()) }
     viewModel{ AddStoryViewModel(get(), get()) }

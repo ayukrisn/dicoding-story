@@ -205,6 +205,7 @@ fun ItemListStory(
 @Composable
 fun AddStoryButton(onClick: () -> Unit) {
     ExtendedFloatingActionButton(
+        modifier = Modifier.padding(0.dp, 0.dp, 0.dp, 64.dp),
         onClick = { onClick() },
         icon = { Icon(Icons.Filled.Edit, "Add story action button.") },
         text = { Text(text = stringResource(R.string.add_story)) },

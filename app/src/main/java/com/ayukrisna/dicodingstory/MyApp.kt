@@ -2,6 +2,7 @@ package com.ayukrisna.dicodingstory
 
 import android.app.Application
 import com.ayukrisna.dicodingstory.di.dataStoreModule
+import com.ayukrisna.dicodingstory.di.databaseModule
 import com.ayukrisna.dicodingstory.di.fileHelperModule
 import com.ayukrisna.dicodingstory.di.preferenceModule
 import com.ayukrisna.dicodingstory.di.repositoryModules
@@ -20,6 +21,7 @@ class MyApp: Application() {
             androidContext(this@MyApp)
             modules(
                 listOf(
+                    databaseModule,
                     fileHelperModule,
                     dataStoreModule,
                     preferenceModule,

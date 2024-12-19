@@ -85,7 +85,10 @@ fun ListStoryScreen (
                 .padding(paddingValues)
                 .padding(horizontal = 16.dp)
             ) {
-                LazyColumn(modifier = Modifier.fillMaxSize()) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(0.dp, 0.dp, 0.dp, 64.dp)) {
                     item {
                         if (pagingData.loadState.refresh is androidx.paging.LoadState.Loading) {
                             LoadingProgress()
@@ -94,7 +97,7 @@ fun ListStoryScreen (
 
                     items(
                         pagingData.itemCount,
-                        key = pagingData.itemKey { it.id!! }
+                        key = pagingData.itemKey { it.id }
                     ) { index ->
                         val story = pagingData[index]
                         if (story != null) {
@@ -103,7 +106,7 @@ fun ListStoryScreen (
                                 name = story.name ?: "No Name",
                                 description = story.description ?: "No Description",
                                 onClick = {
-                                    story.id?.let { onClick(it) }
+                                    story.id.let { onClick(it) }
                                 }
                             )
                         } else {

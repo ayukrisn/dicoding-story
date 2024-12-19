@@ -1,10 +1,14 @@
 package com.ayukrisna.dicodingstory.data.repository
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.RemoteMediator
+import com.ayukrisna.dicodingstory.data.local.database.StoryDatabase
 import com.ayukrisna.dicodingstory.data.local.pref.UserPreference
 import com.ayukrisna.dicodingstory.data.paging.StoryPagingSource
+import com.ayukrisna.dicodingstory.data.paging.StoryRemoteMediator
 import com.ayukrisna.dicodingstory.data.remote.response.AddStoryResponse
 import com.ayukrisna.dicodingstory.data.remote.response.DetailStoryResponse
 import com.ayukrisna.dicodingstory.data.remote.response.ListStoryItem
@@ -21,12 +25,14 @@ import okhttp3.RequestBody.Companion.toRequestBody
 
 
 class StoryRepositoryImp (
-    private val userPreference: UserPreference
+    private val userPreference: UserPreference,
+    private val database: StoryDatabase
 ) : StoryRepository {
     override fun getSession(): Flow<UserModel> {
         return userPreference.getSession()
     }
 
+    @OptIn(ExperimentalPagingApi::class)
     override suspend fun getStories(): Flow<PagingData<ListStoryItem>> {
         val token = userPreference.getSession().first().token
         val apiService = ApiConfig.getApiService(token)
@@ -36,7 +42,8 @@ class StoryRepositoryImp (
                 pageSize = 10,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { StoryPagingSource(apiService) }
+            remoteMediator = StoryRemoteMediator(database, apiService),
+            pagingSourceFactory = {  database.storyDao().getAllStory() }
         ).flow
     }
 

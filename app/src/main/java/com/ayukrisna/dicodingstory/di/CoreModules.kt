@@ -1,5 +1,7 @@
 package com.ayukrisna.dicodingstory.di
 
+import androidx.room.Room
+import com.ayukrisna.dicodingstory.data.local.database.StoryDatabase
 import com.ayukrisna.dicodingstory.view.ui.screen.auth.login.LoginViewModel
 import com.ayukrisna.dicodingstory.view.ui.screen.auth.signup.SignupViewModel
 import com.ayukrisna.dicodingstory.data.local.pref.UserPreference
@@ -26,6 +28,22 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
+
+// Database Module
+val databaseModule = module {
+    single {
+        Room.databaseBuilder(
+            androidContext(),
+            StoryDatabase::class.java,
+            "story_database"
+        )
+            .fallbackToDestructiveMigration()
+            .build()
+    }
+
+    single { get<StoryDatabase>().storyDao() }
+}
+
 
 // File Helper Module
 val fileHelperModule = module {

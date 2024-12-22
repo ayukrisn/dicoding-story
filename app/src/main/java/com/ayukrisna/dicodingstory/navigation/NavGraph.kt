@@ -65,6 +65,8 @@ fun NavGraphBuilder.authNavGraph(
             )
         }
         composable<AuthScreen.WelcomeScreen> {
+            val context = LocalContext.current
+            val activity = context as? Activity
             WelcomeScreen(
                 onNavigateToLogin = {
                     navController.navigate(AuthScreen.LoginScreen)
@@ -73,6 +75,9 @@ fun NavGraphBuilder.authNavGraph(
                     navController.navigate(AuthScreen.SignupScreen)
                 },
             )
+            BackHandler {
+                activity?.finish()
+            }
         }
 
         composable<AuthScreen.LoginScreen> {

@@ -10,8 +10,6 @@ sealed class RootScreen {
     object StoryNav
     @Serializable
     object MapNav
-    @Serializable
-    object SettingNav
 }
 
 @Serializable
@@ -32,7 +30,7 @@ sealed class AuthScreen {
 @Serializable
 sealed class StoryScreen {
     @Serializable
-    data object ListStoryScreen : StoryScreen()
+    data object ListStoryScreen  : StoryScreen()
 
     @Serializable
     data class DetailStoryScreen(val id: String) : StoryScreen()
@@ -45,10 +43,4 @@ sealed class StoryScreen {
 sealed class MapScreen {
     @Serializable
     data object Map : MapScreen()
-}
-
-@Serializable
-sealed class SettingScreen {
-    @Serializable
-    data object Setting : SettingScreen()
 }

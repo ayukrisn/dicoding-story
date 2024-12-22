@@ -1,6 +1,5 @@
 package com.ayukrisna.dicodingstory.data.local.database
 
-import android.content.Context
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import com.ayukrisna.dicodingstory.data.local.dao.RemoteKeysDao

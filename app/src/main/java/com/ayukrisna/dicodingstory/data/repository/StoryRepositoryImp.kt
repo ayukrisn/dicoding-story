@@ -4,10 +4,8 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import androidx.paging.RemoteMediator
 import com.ayukrisna.dicodingstory.data.local.database.StoryDatabase
 import com.ayukrisna.dicodingstory.data.local.pref.UserPreference
-import com.ayukrisna.dicodingstory.data.paging.StoryPagingSource
 import com.ayukrisna.dicodingstory.data.paging.StoryRemoteMediator
 import com.ayukrisna.dicodingstory.data.remote.response.AddStoryResponse
 import com.ayukrisna.dicodingstory.data.remote.response.DetailStoryResponse

@@ -32,7 +32,6 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
-import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.MarkerInfoWindow
 import com.google.maps.android.compose.MarkerState
@@ -62,7 +61,12 @@ fun MapScreen(
             if (stories.isNotEmpty()) {
                 val firstStory = stories.first()
                 val firstStoryLocation = LatLng(firstStory.lat!!, firstStory.lon!!)
-                cameraPositionState.animate(CameraUpdateFactory.newLatLngZoom(firstStoryLocation, 1f))
+                cameraPositionState.animate(
+                    CameraUpdateFactory.newLatLngZoom(
+                        firstStoryLocation,
+                        1f
+                    )
+                )
             }
         }
     }
@@ -89,43 +93,53 @@ fun MapScreen(
         }
     )
 
-        when (storiesState) {
-            is Result.Idle -> Text("Idle State", modifier = Modifier.fillMaxSize())
-            is Result.Loading -> LoadingProgress()
-            is Result.Success -> {
-                val stories: List<ListStoryItem> = (storiesState as Result.Success<List<ListStoryItem>>).data
-                if (stories.isNotEmpty()) {
-                    GoogleMap(
-                        modifier = Modifier.fillMaxSize(),
-                        cameraPositionState = cameraPositionState,
-                        properties = mapStyleOptions,
-                        uiSettings = uiSettings,
-                    ) {
-                        stories.forEach { story ->
-                            MarkerInfoWindow(
-                                state = MarkerState(position = LatLng(story.lat ?: 0.0, story.lon ?: 0.0)),
+    when (storiesState) {
+        is Result.Idle -> Text("Idle State", modifier = Modifier.fillMaxSize())
+        is Result.Loading -> LoadingProgress()
+        is Result.Success -> {
+            val stories: List<ListStoryItem> =
+                (storiesState as Result.Success<List<ListStoryItem>>).data
+            if (stories.isNotEmpty()) {
+                GoogleMap(
+                    modifier = Modifier.fillMaxSize(),
+                    cameraPositionState = cameraPositionState,
+                    properties = mapStyleOptions,
+                    uiSettings = uiSettings,
+                ) {
+                    stories.forEach { story ->
+                        MarkerInfoWindow(
+                            state = MarkerState(
+                                position = LatLng(
+                                    story.lat ?: 0.0,
+                                    story.lon ?: 0.0
+                                )
+                            ),
+                        ) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center,
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(10))
+                                    .background(MaterialTheme.colorScheme.surfaceBright)
+                                    .padding(20.dp)
                             ) {
-                                Column (
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center,
-                                    modifier = Modifier
-                                        .clip(RoundedCornerShape(10))
-                                        .background(MaterialTheme.colorScheme.surfaceBright)
-                                        .padding(20.dp)
-                                ) {
-                                    Text(story.name ?: "No Name", fontWeight = FontWeight.Bold)
-                                    Text(story.description ?: "No Description", fontWeight = FontWeight.Medium)
-                                }
+                                Text(story.name ?: "No Name", fontWeight = FontWeight.Bold)
+                                Text(
+                                    story.description ?: "No Description",
+                                    fontWeight = FontWeight.Medium
+                                )
                             }
                         }
                     }
-            } else {
-                    Text("No stories available")
                 }
-            }
-            is Result.Error -> {
-                val error = (storiesState as Result.Error).error
-                Text("Error: $error")
+            } else {
+                Text("No stories available")
             }
         }
+
+        is Result.Error -> {
+            val error = (storiesState as Result.Error).error
+            Text("Error: $error")
+        }
     }
+}

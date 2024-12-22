@@ -24,7 +24,6 @@ import com.ayukrisna.dicodingstory.view.ui.screen.auth.signup.SignupScreen
 import com.ayukrisna.dicodingstory.view.ui.screen.auth.splash.SplashScreen
 import com.ayukrisna.dicodingstory.view.ui.screen.auth.welcome.WelcomeScreen
 import com.ayukrisna.dicodingstory.view.ui.screen.maps.MapScreen
-import com.ayukrisna.dicodingstory.view.ui.screen.settings.SettingScreen
 
 @Composable
 fun NavGraph (
@@ -42,7 +41,6 @@ fun NavGraph (
         authNavGraph(navController)
         storyNavGraph(navController)
         mapNavGraph(navController)
-        settingNavGraph(navController)
     }
 }
 
@@ -139,7 +137,11 @@ fun NavGraphBuilder.storyNavGraph(
         }
         composable<StoryScreen.AddStoryScreen>{
             AddStoryScreen(
-                onBackClick = { navController.popBackStack() }
+                onBackClick = {
+                    navController.navigate(StoryScreen.ListStoryScreen) {
+                        popUpTo(StoryScreen.AddStoryScreen) { inclusive = true }
+                    }
+                }
             )
         }
     }
@@ -153,18 +155,6 @@ fun NavGraphBuilder.mapNavGraph(
     ) {
         composable<MapScreen.Map>{
             MapScreen()
-        }
-    }
-}
-
-fun NavGraphBuilder.settingNavGraph(
-    navController: NavHostController,
-) {
-    navigation<RootScreen.SettingNav>(
-        startDestination = SettingScreen.Setting
-    ) {
-        composable<SettingScreen.Setting>{
-            SettingScreen()
         }
     }
 }

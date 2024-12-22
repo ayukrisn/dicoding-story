@@ -8,14 +8,12 @@ import com.ayukrisna.dicodingstory.data.remote.response.ListStoryItem
 import com.ayukrisna.dicodingstory.domain.usecase.ListStoryUseCase
 import com.ayukrisna.dicodingstory.domain.usecase.LogoutUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
-import com.ayukrisna.dicodingstory.util.Result
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ListStoryViewModel (
     private val listStoryUseCase: ListStoryUseCase,
-//    private val logoutUseCase: LogoutUseCase
+    private val logoutUseCase: LogoutUseCase
 ) : ViewModel() {
     private val _stories = MutableStateFlow<PagingData<ListStoryItem>>(PagingData.empty())
     val stories: StateFlow<PagingData<ListStoryItem>> = _stories
@@ -34,9 +32,9 @@ class ListStoryViewModel (
         }
     }
 
-//    fun logOut() {
-//        viewModelScope.launch {
-//            logoutUseCase.execute()
-//        }
-//    }
+    fun logOut() {
+        viewModelScope.launch {
+            logoutUseCase.execute()
+        }
+    }
 }

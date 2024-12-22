@@ -40,7 +40,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.ayukrisna.dicodingstory.R
 import com.ayukrisna.dicodingstory.view.ui.theme.DicodingStoryTheme
 import com.ayukrisna.dicodingstory.util.UiText

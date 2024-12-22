@@ -48,13 +48,6 @@ fun BottomNavigationBar(
                 activeIcon = R.drawable.filled_map,
                 inactiveIcon = R.drawable.outline_map
             ),
-            TopLevelRoute(
-                title = "Settings",
-                route = RootScreen.SettingNav,
-                activeIcon = R.drawable.filled_settings,
-                inactiveIcon = R.drawable.outline_settings
-
-            )
         )
 
 

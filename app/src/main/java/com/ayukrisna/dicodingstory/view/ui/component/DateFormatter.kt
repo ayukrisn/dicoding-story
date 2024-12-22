@@ -1,7 +1,5 @@
 package com.ayukrisna.dicodingstory.view.ui.component
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale

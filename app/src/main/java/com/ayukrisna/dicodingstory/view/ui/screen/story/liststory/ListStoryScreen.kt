@@ -106,7 +106,7 @@ fun ListStoryScreen (
                                 name = story.name ?: "No Name",
                                 description = story.description ?: "No Description",
                                 onClick = {
-                                    story.id.let { onClick(it) }
+                                    onClick(story.id)
                                 }
                             )
                         } else {
@@ -121,14 +121,14 @@ fun ListStoryScreen (
                     }
                 }
             }
-//            LogoutAlertDialog(
-//                showDialog = showDialog,
-//                onConfirm = {
-//                    viewModel.logOut()
-//                    onLogOut()
-//                },
-//                onDismiss = {}
-//            )
+            LogoutAlertDialog(
+                showDialog = showDialog,
+                onConfirm = {
+                    viewModel.logOut()
+                    onLogOut()
+                },
+                onDismiss = {}
+            )
         }
     )
 }

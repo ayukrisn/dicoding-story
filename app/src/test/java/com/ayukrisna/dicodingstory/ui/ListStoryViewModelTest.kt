@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import com.ayukrisna.dicodingstory.DataDummy
 import com.ayukrisna.dicodingstory.data.remote.response.ListStoryItem
+import com.ayukrisna.dicodingstory.domain.usecase.LogoutUseCase
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.mockito.Mockito
@@ -38,6 +39,9 @@ class ListStoryViewModelTest{
     @Mock
     private lateinit var listStoryUseCase: ListStoryUseCase
 
+    @Mock
+    private lateinit var logoutUseCase: LogoutUseCase
+
     private lateinit var viewModel: ListStoryViewModel
 
     @Test
@@ -48,7 +52,7 @@ class ListStoryViewModelTest{
         expectedStory.value = data
 
         Mockito.`when`(listStoryUseCase.loadStory()).thenReturn(expectedStory)
-        viewModel = ListStoryViewModel(listStoryUseCase)
+        viewModel = ListStoryViewModel(listStoryUseCase, logoutUseCase)
 
         launch {
             viewModel.loadStory()
@@ -75,7 +79,7 @@ class ListStoryViewModelTest{
         val expectedStory = MutableStateFlow<PagingData<ListStoryItem>>(PagingData.empty())
 
         Mockito.`when`(listStoryUseCase.loadStory()).thenReturn(expectedStory)
-        viewModel = ListStoryViewModel(listStoryUseCase)
+        viewModel = ListStoryViewModel(listStoryUseCase, logoutUseCase)
 
         launch {
             viewModel.loadStory()

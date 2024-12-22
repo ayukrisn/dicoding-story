@@ -27,9 +27,6 @@ class SignupViewModel(private val registerUseCase: RegisterUseCase) : ViewModel(
     private val _signUpState = MutableLiveData<Result<RegisterResponse>>(Result.Idle)
     val signUpState: LiveData<Result<RegisterResponse>> = _signUpState
 
-    private val _errorState = MutableStateFlow<String?>(null)
-    val errorState: StateFlow<String?> = _errorState
-
     fun onEvent(event: SignupEvent) {
         when (event) {
             is SignupEvent.NameChanged -> {

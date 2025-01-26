@@ -29,7 +29,7 @@ DicodingStory is an Android application developed as part of the "Belajar Pengem
 - **Networking**: Retrofit
 - **Paging**: Paging3
 - **Maps**: Google Maps API
-- **Testing**: JUnit, MockK
+- **Testing**: JUnit, Mockito
 
 ## How to Build
 

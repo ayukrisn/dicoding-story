@@ -35,7 +35,7 @@ DicodingStory is an Android application developed as part of the "Belajar Pengem
 
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/dicodingstory.git
+   git clone https://github.com/ayukrisn/dicodingstory.git
 2. Open the project in Android Studio.
 3. Sync the project with Gradle files.
 4. Obtain a Google Maps API key and add it to your ```local.properties``` file
